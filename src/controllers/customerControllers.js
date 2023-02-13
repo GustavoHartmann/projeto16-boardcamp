@@ -26,3 +26,23 @@ export async function findCustomers(req, res) {
       return res.sendStatus(500);
     }
   }
+
+  export async function findCustomerById(req, res) {
+    const { id } = req.params;
+
+    try {
+      const { rows } = await db.query(
+        `SELECT * FROM customers WHERE id = $1 `,
+        [id]
+      );
+  
+      if (rows.length === 0) {
+        return res.sendStatus(404);
+      }
+  
+      res.send(rows[0]);
+    } catch (err) {
+        console.log(err);
+        return res.sendStatus(500);
+    }
+  }

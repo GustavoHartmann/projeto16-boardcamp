@@ -1,9 +1,11 @@
 import { Router } from "express";
-import { createGame } from "../controllers/gameControllers.js";
+import { createGame, findGames } from "../controllers/gameControllers.js";
 import { gameValidation } from "../middlewares/gameValidation.js";
 
 const router = Router();
 
 router.post("/games", gameValidation, createGame);
+router.get("/games", findGames);
+
 
 export default router;

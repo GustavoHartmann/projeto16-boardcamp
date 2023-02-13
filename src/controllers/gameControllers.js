@@ -12,3 +12,14 @@ export async function createGame(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function findGames(req, res) {
+  try {
+    const { rows } = await db.query("SELECT * FROM games");
+
+    res.send(rows);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}

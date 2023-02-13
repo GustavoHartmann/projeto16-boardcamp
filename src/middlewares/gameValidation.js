@@ -8,18 +8,16 @@ export async function gameValidation(req, res, next) {
 
   if (error) {
     const errors = error.details.map((d) => d.message);
-    return res.status(422).send(errors);
+    return res.status(400).send(errors);
   }
 
   try {
-    const nameExists = await db.query(
-      "SELECT * FROM games WHERE name = $1", [game.name]
-    );
+    const nameExists = await db.query("SELECT * FROM games WHERE name = $1", [
+      game.name,
+    ]);
 
     if (nameExists.rowCount !== 0) {
-      return res.status(409).send({
-        message: "This game already exists",
-      });
+      return res.sendStatus(409);
     }
   } catch (err) {
     console.log(err);

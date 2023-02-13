@@ -7,6 +7,8 @@ export async function createGame(req, res) {
       'INSERT INTO games ("name", "image", "stockTotal", "pricePerDay") VALUES ($1, $2, $3, $4)',
       [name, image, stockTotal, pricePerDay]
     );
+
+    sendStatus(201);
   } catch (err) {
     console.log(err);
     return res.sendStatus(500);

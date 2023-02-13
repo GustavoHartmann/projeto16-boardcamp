@@ -9,7 +9,7 @@ export async function customerValidation(req, res, next) {
 
   if (error) {
     const errors = error.details.map((d) => d.message);
-    return res.status(422).send(errors);
+    return res.status(400).send(errors);
   }
 
   try {
@@ -19,7 +19,10 @@ export async function customerValidation(req, res, next) {
         [customer.cpf]
       );
 
-      if (cpfAlreadyExists.rowCount !== 0 && String(cpfAlreadyExists.rows[0].id) !== id) {
+      if (
+        cpfAlreadyExists.rowCount !== 0 &&
+        String(cpfAlreadyExists.rows[0].id) !== id
+      ) {
         return res.status(409).send({
           message: "This cpf already exists",
         });

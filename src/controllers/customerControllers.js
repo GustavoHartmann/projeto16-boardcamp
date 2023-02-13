@@ -15,3 +15,14 @@ export async function createCustomer(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function findCustomers(req, res) {
+    try {
+      const { rows } = await db.query("SELECT * FROM customers");
+  
+      res.send(rows);
+    } catch (err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+  }

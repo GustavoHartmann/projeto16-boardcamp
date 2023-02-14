@@ -31,3 +31,35 @@ export async function createRental(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function findRentals(req, res) {
+  try {
+    const { rows } = await db.query(
+      `SELECT rentals.*, customers.id AS "idCustomer", customers.name AS "customerName",
+       games.id AS "idGame", games.name AS "gameName",
+       FROM rentals JOIN costumers ON rentals."costumerId" = "idCustomer"
+       JOIN games ON rentals."gameId" = "idGame"`
+    );
+
+    const rentals = rows.map(
+      ({ customerId, customerName, idGame, gameName, ...rental }) => {
+        return {
+          ...rental,
+          customer: {
+            id: customerId,
+            name: customerName,
+          },
+          game: {
+            id: idGame,
+            name: gameName,
+          },
+        };
+      }
+    );
+
+    res.send(rentals);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
